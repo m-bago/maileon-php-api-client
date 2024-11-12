@@ -37,7 +37,7 @@ class DataExtension extends AbstractJSONWrapper
      */
     private function shouldSetDeleteDateValue(RetentionPolicy $retentionPolicy, string $deleteDateAsLong): bool
     {
-        return ($retentionPolicy == RetentionPolicy::EXTENSION_DATE && !is_null($deleteDateAsLong));
+        return ($retentionPolicy == RetentionPolicy::EXTENSION_DATE && is_null($deleteDateAsLong));
     }
 
 }
