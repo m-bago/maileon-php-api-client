@@ -7,11 +7,11 @@ use de\xqueue\maileon\api\client\MaileonAPIResult;
 
 class DataExtensionsService extends AbstractMaileonService
 {
-    private $mimeType = "application/vnd.maileon.api+json";
+    const MIME_TYPE = "application/vnd.maileon.api+json";
 
     public function getDataTypes(): MaileonAPIResult
     {
-        return $this->get("dataextensions/datatypes", [], $this->mimeType);
+        return $this->get("dataextensions/datatypes", [], self::MIME_TYPE);
     }
 
     //TODO currently returns 403 Status code
@@ -31,6 +31,6 @@ class DataExtensionsService extends AbstractMaileonService
             'id' => $dataExtensionId
         ];
 
-        return $this->get("dataextensions/", $queryParameters, $this->mimeType);
+        return $this->get("dataextensions/", [], self::MIME_TYPE);
     }
 }
