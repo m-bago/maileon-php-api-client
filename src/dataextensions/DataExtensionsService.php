@@ -14,16 +14,18 @@ class DataExtensionsService extends AbstractMaileonService
         return $this->get("dataextensions/datatypes", [], $this->mimeType);
     }
 
-    //TODO implement properly
-//    public function deleteDataExtension(string $dataExtensionId)
-//    {
-//        $queryParameters = [
-//            'id' => $dataExtensionId
-//        ];
-//        return $this->delete('dataextensions/', $queryParameters, );
-//    }
+    //TODO currently returns 403 Status code
+    // with user has no privileges for requested method as resultXml
+    public function deleteDataExtensionById(string $dataExtensionId)
+    {
+        $queryParameters = [
+            'id' => $dataExtensionId
+        ];
 
-    public function getDataExtension(string $dataExtensionId): MaileonAPIResult
+        return $this->delete('dataextensions/', $queryParameters);
+    }
+
+    public function getDataExtensionById(string $dataExtensionId): MaileonAPIResult
     {
         $queryParameters = [
             'id' => $dataExtensionId
