@@ -25,12 +25,8 @@ class DataExtensionsService extends AbstractMaileonService
         return $this->delete('dataextensions/', $queryParameters);
     }
 
-    public function getDataExtensionById(string $dataExtensionId): MaileonAPIResult
+    public function getDataExtensionById(string $dataExtensionId)
     {
-        $queryParameters = [
-            'id' => $dataExtensionId
-        ];
-
-        return $this->get("dataextensions/", [], self::MIME_TYPE);
+        return $this->get("dataextensions/" . $dataExtensionId, [], self::MIME_TYPE);
     }
 }

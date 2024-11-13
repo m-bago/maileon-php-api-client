@@ -4,6 +4,7 @@ namespace de\xqueue\maileon\api\client\dataextensions;
 
 use de\xqueue\maileon\api\client\json\AbstractJSONWrapper;
 
+// TODO error handling comes here if mandatory field values are not set (?) if so, implement.
 class DataExtension extends AbstractJSONWrapper
 {
     /**
@@ -37,7 +38,7 @@ class DataExtension extends AbstractJSONWrapper
     public $delete_interval;
 
     /**
-     * @var
+     * @var DeleteIntervalUnit $delete_interval_unit
      */
     public $delete_interval_unit;
 
@@ -62,6 +63,9 @@ class DataExtension extends AbstractJSONWrapper
         $this->retention_policy = $retentionPolicy;
         $this->delete_date = $this->shouldSetDeleteDateValue($retentionPolicy, $delete_date_as_long) ? $delete_date : null;
         $this->delete_date_as_long = is_null($delete_date) ? $delete_date_as_long : null;
+        $this->delete_interval = $this->shouldSetDeleteInterval($retentionPolicy) ? $delete_interval : null;
+        $this->delete_interval_unit = $this->shouldSetDeleteInterval($retentionPolicy) ? $delete_interval_unit : null;
+        $this->fields = $fields;
     }
 
 
@@ -77,4 +81,48 @@ class DataExtension extends AbstractJSONWrapper
     {
         return ($retentionPolicy == RetentionPolicy::$EXTENSION_DATE && is_null($deleteDateAsLong));
     }
+
+    /**
+     * Determine whether to set delete_interval & delete_interval_unit property values
+     *
+     * @param $retentionPolicy
+     * @return bool
+     */
+    private function shouldSetDeleteInterval($retentionPolicy)
+    {
+        return $retentionPolicy !== RetentionPolicy::$NONE && $retentionPolicy !== RetentionPolicy::$EXTENSION_DATE;
+    }
+
+    /**
+     * Override __toString()
+     *
+     * @return string
+     * Returns human-readable string of the class .
+     */
+    public function __toString()
+    {
+        $fields = implode(', ', $this->fields);
+
+        return sprintf(
+            "DataExtension:\n" .
+            "Name: %s\n" .
+            "Description: %s\n" .
+            "Retention Policy: %s\n" .
+            "Delete Date: %s\n" .
+            "Delete Date (as long): %d\n" .
+            "Delete Interval: %d\n" .
+            "Delete Interval Unit: %s\n" .
+            "Fields: %s\n",
+            $this->name ?? 'N/A',
+            $this->description ?? 'N/A',
+            $this->retention_policy->getType() ?? 'N/A',
+            $this->delete_date ?? 'N/A',
+            $this->delete_date_as_long ?? 0,
+            $this->delete_interval ?? 0,
+            $this->delete_interval_unit->getUnit() ?? 'N/A',
+            $fields
+        );
+    }
+
+
 }
