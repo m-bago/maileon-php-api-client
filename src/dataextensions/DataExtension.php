@@ -105,7 +105,8 @@ class DataExtension extends AbstractJSONWrapper
         $array['retention_policy'] = $this->retention_policy->getType();
 
         if (isset($this->delete_date_interval)) {
-            $array['delete_date_interval'] = $this->delete_interval_unit->getType();
+            $array['delete_interval'] = $this->delete_interval;
+            $array['delete_interval_unit'] = $this->delete_interval_unit->getType();
         }
         return $array;
     }
