@@ -5,7 +5,7 @@ namespace de\xqueue\maileon\api\client\dataextensions;
 /**
  * The wrapper class for a Maileon Data Extension's Delete Interval Unit.
  */
-class DeleteIntervalUnit
+final class DeleteIntervalUnit
 {
     public static $DAYS;
     public static $WEEKS;
