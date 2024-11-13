@@ -3,6 +3,7 @@
 namespace de\xqueue\maileon\api\client\dataextensions;
 
 use de\xqueue\maileon\api\client\AbstractMaileonService;
+use de\xqueue\maileon\api\client\json\JSONSerializer;
 use de\xqueue\maileon\api\client\MaileonAPIResult;
 
 class DataExtensionsService extends AbstractMaileonService
@@ -28,5 +29,10 @@ class DataExtensionsService extends AbstractMaileonService
     public function getDataExtensionById(string $dataExtensionId)
     {
         return $this->get("dataextensions/" . $dataExtensionId, [], self::MIME_TYPE);
+    }
+
+    public function createDataExtension($dataExtension)
+    {
+        return $this->post('dataextensions', JSONSerializer::json_encode($dataExtension), [], self::MIME_TYPE);
     }
 }

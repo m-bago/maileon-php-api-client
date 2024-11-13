@@ -4,7 +4,13 @@ namespace de\xqueue\maileon\api\client\dataextensions;
 
 use de\xqueue\maileon\api\client\json\AbstractJSONWrapper;
 
-// TODO error handling comes here if mandatory field values are not set (?) if so, implement.
+/* TODO:
+        - error handling comes here if mandatory field values are not set (?) if so, implement
+        - validate field values eg:(delete_date accepted format)
+        - proper PHP Docs
+        - look more into AbstractJSONWRapper's functionality
+*/
+
 class DataExtension extends AbstractJSONWrapper
 {
     /**
@@ -93,13 +99,24 @@ class DataExtension extends AbstractJSONWrapper
         return $retentionPolicy !== RetentionPolicy::$NONE && $retentionPolicy !== RetentionPolicy::$EXTENSION_DATE;
     }
 
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['retention_policy'] = $this->retention_policy->getType();
+
+        if (isset($this->delete_date_interval)) {
+            $array['delete_date_interval'] = $this->delete_interval->getType();
+        }
+        return $array;
+    }
+
     /**
-     * Override __toString()
+     * Override AbstractJSONWrapper
      *
      * @return string
-     * Returns human-readable string of the class .
+     * a human-readable representation listing all the attributes of this data extension and their respective values.
      */
-    public function __toString()
+    public function toString()
     {
         $fields = implode(', ', $this->fields);
 
@@ -123,6 +140,4 @@ class DataExtension extends AbstractJSONWrapper
             $fields
         );
     }
-
-
 }
