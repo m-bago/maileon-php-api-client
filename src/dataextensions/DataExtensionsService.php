@@ -19,11 +19,16 @@ class DataExtensionsService extends AbstractMaileonService
 
     /**
      * Get all available data types
-     * @return MaileonAPIResult|null
+     *
+     * @return MaileonAPIResult
+     * The result object of the API call,
+     *
+     * @throws MaileonAPIException
+     * If there was a connection problem or a server error occurred.
      */
     public function getDataTypes()
     {
-        return $this->get("dataextensions/datatypes", [], self::MIME_TYPE);
+        return $this->get("dataextensions/datatypes", [], self::MIME_TYPE, 'DataType');
     }
 
     /**
