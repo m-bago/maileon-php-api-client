@@ -83,9 +83,14 @@ class DataExtensionsService extends AbstractMaileonService
     public function manageRecords($dataExtensionId, $record, $importOption)
     {
         $queryParameters = [
-            'importOption' => $importOption,
+            'importOption' => $importOption->getOption(),
         ];
 
-        return $this->post("dataextensions/" . $dataExtensionId, JSONSerializer::json_encode($record), $queryParameters, self::MIME_TYPE);
+        return $this->post(
+            "dataextensions/" . $dataExtensionId,
+            JSONSerializer::json_encode($record),
+            $queryParameters,
+            self::MIME_TYPE
+        );
     }
 }
