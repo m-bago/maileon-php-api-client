@@ -4,6 +4,10 @@ namespace de\xqueue\maileon\api\client\dataextensions;
 
 use de\xqueue\maileon\api\client\json\AbstractJSONWrapper;
 
+/**
+ * Class DataExtensionRecord
+ * Represents a set of records to be managed within a Data Extension.
+ */
 class DataExtensionRecord extends AbstractJSONWrapper
 {
     /**
