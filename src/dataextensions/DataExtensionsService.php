@@ -74,4 +74,9 @@ class DataExtensionsService extends AbstractMaileonService
     {
         return $this->post('dataextensions', JSONSerializer::json_encode($dataExtension), [], self::MIME_TYPE);
     }
+
+    public function updateDataExtension($dataExtensionId, $dataExtension)
+    {
+        return $this->put("dataextensions/" . $dataExtensionId, JSONSerializer::json_encode($dataExtension), [], self::MIME_TYPE);
+    }
 }
