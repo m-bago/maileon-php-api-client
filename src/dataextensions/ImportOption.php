@@ -5,6 +5,8 @@ namespace de\xqueue\maileon\api\client\dataextensions;
 /**
  * Class ImportOption
  * Enum-like class defining possible import options for managing records.
+ *
+ * @author Milan Nagy <milan.nagy@xqueue.com>
  */
 final class ImportOption
 {
