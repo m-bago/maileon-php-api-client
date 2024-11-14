@@ -27,9 +27,10 @@ class DataExtensionRecord extends AbstractJSONWrapper
      *
      * @param array $field_names
      */
-    public function __construct($field_names = array())
+    public function __construct($field_names = array(), $records_list = array())
     {
         $this->field_names = $field_names;
+        $this->records_list = $this->createRecordsList($records_list);
     }
 
     // TODO: How to handle records_list?
@@ -37,6 +38,15 @@ class DataExtensionRecord extends AbstractJSONWrapper
     public function addRecord(array $values)
     {
         $this->records_list[] = ["values" => $values];
+    }
+
+    private function createRecordsList($records_list): array
+    {
+        $result = [];
+        foreach ($records_list as $record) {
+            $result[] = ["values" => $record];
+        }
+        return $result;
     }
 
     /**
