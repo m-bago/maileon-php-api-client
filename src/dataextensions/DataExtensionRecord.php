@@ -77,10 +77,40 @@ class DataExtensionRecord extends AbstractJSONWrapper
      */
     public function toArray(): array
     {
-        return [
-            "field_names" => $this->field_names,
-            "records_list" => $this->records_list
-        ];
+        $result = parent::toArray();
+
+        $result['field_names'] = $this->field_names;
+        $result['records_list'] = array_map(function ($record) {
+            return ["values" => $record['values']];
+        }, $this->records_list);
+
+        return $result;
+    }
+
+    /**
+     * Populates the properties of the current instance from an associative array.
+     * This method maps the structure of the provided array to the `DataExtensionRecord`'s properties.
+     *
+     * @param object|array $object_vars
+     *
+     * @return void
+     */
+    public function fromArray($object_vars)
+    {
+        if (property_exists($object_vars, "field_names") && is_array($object_vars->field_names)) {
+            $this->field_names = $object_vars->field_names;
+        }
+
+        if (property_exists($object_vars, "records_list") && is_array($object_vars->records_list)) {
+            $this->records_list = [];
+            foreach ($object_vars->records_list as $record) {
+                if (property_exists($record, "values") && is_array($record->values)) {
+                    $this->records_list[] = ["values" => $record->values];
+                }
+            }
+        }
+
+        parent::fromArray($object_vars);
     }
 
     /**
