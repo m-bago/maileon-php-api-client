@@ -370,6 +370,7 @@ $transactionsService->createTransactions([$transaction]);
 * Get all available data types
 ```php
 <?php
+
 use de\xqueue\maileon\api\client\dataextensions\DataExtensionsService;
 
 require __DIR__ . 'vendor/autoload.php';
@@ -380,3 +381,19 @@ $dataExtensionsService = new DataExtensionsService(
 
 $availableDataTypes = $dataExtensionsService->getDataTypes();
 ```
+
+* Delete Data Extension by ID
+```php
+<?php
+
+use de\xqueue\maileon\api\client\dataextensions\DataExtensionsService;
+
+require __DIR__ . 'vendor/autoload.php';
+
+$dataExtensionsService = new DataExtensionsService(
+    ["API_KEY" => 'YOUR API KEY']
+);
+
+$idOfExtension = 1;
+
+$availableDataTypes = $dataExtensionsService->deleteDataExtensionById($idOfExtension);
