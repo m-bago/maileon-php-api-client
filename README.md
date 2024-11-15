@@ -373,7 +373,7 @@ $transactionsService->createTransactions([$transaction]);
 
 use de\xqueue\maileon\api\client\dataextensions\DataExtensionsService;
 
-require __DIR__ . 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 $dataExtensionsService = new DataExtensionsService(
     ["API_KEY" => 'YOUR API KEY']
@@ -388,7 +388,7 @@ $availableDataTypes = $dataExtensionsService->getDataTypes();
 
 use de\xqueue\maileon\api\client\dataextensions\DataExtensionsService;
 
-require __DIR__ . 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 $dataExtensionsService = new DataExtensionsService(
     ["API_KEY" => 'YOUR API KEY']
