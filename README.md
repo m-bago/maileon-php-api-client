@@ -403,11 +403,11 @@ $availableDataTypes = $dataExtensionsService->deleteDataExtensionById($idOfExten
 ```php
 <?php
 
-require 'vendor/autoload.php';
-
 use de\xqueue\maileon\api\client\dataextensions\DataExtensionRecord;
 use de\xqueue\maileon\api\client\dataextensions\ImportOption;
 use de\xqueue\maileon\api\client\dataextensions\DataExtensionsService;
+
+require __DIR__ . '/vendor/autoload.php';
 
 $field_names = [
     "id",
