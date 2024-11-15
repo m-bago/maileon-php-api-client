@@ -397,3 +397,39 @@ $dataExtensionsService = new DataExtensionsService(
 $idOfExtension = 1;
 
 $availableDataTypes = $dataExtensionsService->deleteDataExtensionById($idOfExtension);
+```
+
+* Insert Data Extension Records into existing Data Extension
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+use de\xqueue\maileon\api\client\dataextensions\DataExtensionRecord;
+use de\xqueue\maileon\api\client\dataextensions\ImportOption;
+use de\xqueue\maileon\api\client\dataextensions\DataExtensionsService;
+
+$field_names = [
+    "id",
+    "email",
+    "text"
+];
+
+$records_list = [
+    [
+        1,
+        "foo@maileon.com",
+        "lorem ipsum dolor sit amet"
+    ],
+    [
+        2,
+        "bar@maileon.com",
+        "consetetur sadipscing elitr"
+    ]
+];
+
+$dataExtensionId = 1;
+$dataRecords = new DataExtensionRecord($field_names, $records_list);
+
+$dataExtensionsService->manageRecords($dataExtensionId, $dataRecords, ImportOption::$INSERT);
+```
