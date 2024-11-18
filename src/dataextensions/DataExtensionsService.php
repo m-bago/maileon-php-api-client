@@ -57,7 +57,7 @@ class DataExtensionsService extends AbstractMaileonService
      */
     public function getDataExtensionById($dataExtensionId)
     {
-        return $this->get("dataextensions/" . $dataExtensionId, [], self::MIME_TYPE, 'DataExtension');
+        return $this->get("dataextensions/" . $dataExtensionId, [], self::MIME_TYPE, DataExtension::class);
     }
 
     /**
