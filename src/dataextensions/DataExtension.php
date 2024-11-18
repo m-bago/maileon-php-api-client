@@ -130,6 +130,17 @@ class DataExtension extends AbstractJSONWrapper
         return $array;
     }
 
+    /**
+     * @Override AbstractJSONWrapper
+     *
+     * Used to initialize this object from JSON. Override this to modify JSON
+     * parameters.
+     *
+     * @param array $object_vars
+     * The array from json_decode
+     *
+     * @return void
+     */
     public function fromArray($object_vars)
     {
         if (property_exists($object_vars, 'fields') && is_array($object_vars->fields)) {
@@ -144,7 +155,7 @@ class DataExtension extends AbstractJSONWrapper
     }
 
     /**
-     * Override AbstractJSONWrapper
+     * @Override AbstractJSONWrapper
      * Creates a human-readable representation listing all the
      * attributes of this data extension and their respective values.
      *
