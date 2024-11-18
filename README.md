@@ -365,3 +365,71 @@ $transaction = new Transaction(
 
 $transactionsService->createTransactions([$transaction]);
 ```
+### Data Extension example
+
+* Get all available data types
+```php
+<?php
+
+use de\xqueue\maileon\api\client\dataextensions\DataExtensionsService;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$dataExtensionsService = new DataExtensionsService(
+    ["API_KEY" => 'YOUR API KEY']
+);
+
+$availableDataTypes = $dataExtensionsService->getDataTypes();
+```
+
+* Delete Data Extension by ID
+```php
+<?php
+
+use de\xqueue\maileon\api\client\dataextensions\DataExtensionsService;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$dataExtensionsService = new DataExtensionsService(
+    ["API_KEY" => 'YOUR API KEY']
+);
+
+$idOfExtension = 1;
+
+$availableDataTypes = $dataExtensionsService->deleteDataExtensionById($idOfExtension);
+```
+
+* Insert Data Extension Records into existing Data Extension
+```php
+<?php
+
+use de\xqueue\maileon\api\client\dataextensions\DataExtensionRecord;
+use de\xqueue\maileon\api\client\dataextensions\ImportOption;
+use de\xqueue\maileon\api\client\dataextensions\DataExtensionsService;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$field_names = [
+    "id",
+    "email",
+    "text"
+];
+
+$records_list = [
+    [
+        1,
+        "foo@maileon.com",
+        "lorem ipsum dolor sit amet"
+    ],
+    [
+        2,
+        "bar@maileon.com",
+        "consetetur sadipscing elitr"
+    ]
+];
+
+$dataExtensionId = 1;
+$dataRecords = new DataExtensionRecord($field_names, $records_list);
+
+$dataExtensionsService->manageRecords($dataExtensionId, $dataRecords, ImportOption::$INSERT);
+```
