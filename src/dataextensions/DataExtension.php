@@ -54,37 +54,44 @@ class DataExtension extends AbstractJSONWrapper
      *
      * @param string $name
      * The name of the data extension Required*.
+     *
      * @param RetentionPolicy $retentionPolicy
      * The retention policy of the data extension Required*.
+     *
      * @param string $description
      * The description of the data extension.
+     *
      * @param string $delete_date
      * The deletion date of the data extension
      * Accepted formats: Y-m-d, Y-m-d H:i:s, Y-m-dTH:i:sZ.
      * Required* IF retention policy is set to extension_date
      * AND delete_date_as_long is not set.
+     *
      * @param int $delete_date_as_long
      * The deletion date timestamp in microseconds
      * (timestamp * 1000) of the data extension.
      * Required* IF retention policy is set to extension_date
      * AND delete_date is not set.
+     *
      * @param int $delete_interval
      * The amount of delete_interval_unit as integer
      * for example(delete_interval_unit is set to "DAYS",
      * delete_interval is set to 3 that equals 3 DAYS).
      * Required* IF retention_policy is either extension_duration,
      * extension_duration_renew_on_modification or records_duration.
+     *
      * @param $delete_interval_unit
      * The date interval unit.
      * Required* IF retention_policy is either extension_duration,
      * extension_duration_renew_on_modification or records_duration.
+     *
      * @param array $fields
      * An array of date extension fields.
      * Required*
      */
     public function __construct(
-        $name,
-        RetentionPolicy $retentionPolicy,
+        $name = null,
+        $retentionPolicy = null,
         $description = null,
         $delete_date = null,
         $delete_date_as_long = null,
@@ -93,14 +100,9 @@ class DataExtension extends AbstractJSONWrapper
         $fields = array()
     )
     {
-        // Field assignment logic commented out as no validation is required at instantiation
         $this->name = $name;
         $this->description = $description;
         $this->retention_policy = $retentionPolicy;
-        //$this->delete_date = $this->shouldSetDeleteDateValue($retentionPolicy, $delete_date_as_long) ? $delete_date : null;
-        //$this->delete_date_as_long = is_null($delete_date) ? $delete_date_as_long : null;
-        //$this->delete_interval = $this->shouldSetDeleteInterval($retentionPolicy) ? $delete_interval : null;
-        //$this->delete_interval_unit = $this->shouldSetDeleteInterval($retentionPolicy) ? $delete_interval_unit : null;
         $this->delete_date = $delete_date;
         $this->delete_date_as_long = $delete_date_as_long;
         $this->delete_interval = $delete_interval;
@@ -108,30 +110,6 @@ class DataExtension extends AbstractJSONWrapper
         $this->fields = $fields;
     }
 
-
-//    /**
-//     * Determine whether to set delete_date property's value or not.
-//     *
-//     * @param RetentionPolicy $retentionPolicy
-//     * @param string|null $deleteDateAsLong
-//     *
-//     * @return bool
-//     */
-//    private function shouldSetDeleteDateValue($retentionPolicy, $deleteDateAsLong): bool
-//    {
-//        return ($retentionPolicy == RetentionPolicy::$EXTENSION_DATE && is_null($deleteDateAsLong));
-//    }
-
-//    /**
-//     * Determine whether to set delete_interval & delete_interval_unit property values
-//     *
-//     * @param $retentionPolicy
-//     * @return bool
-//     */
-//    private function shouldSetDeleteInterval($retentionPolicy)
-//    {
-//        return $retentionPolicy !== RetentionPolicy::$NONE && $retentionPolicy !== RetentionPolicy::$EXTENSION_DATE;
-//    }
 
     /**
      * Override AbstractJSONWrapper
@@ -152,14 +130,32 @@ class DataExtension extends AbstractJSONWrapper
         return $array;
     }
 
-    // TODO implement to deserialize from api result response
+    /**
+     * @Override AbstractJSONWrapper
+     *
+     * Used to initialize this object from JSON. Override this to modify JSON
+     * parameters.
+     *
+     * @param array $object_vars
+     * The array from json_decode
+     *
+     * @return void
+     */
     public function fromArray($object_vars)
     {
+        if (property_exists($object_vars, 'fields') && is_array($object_vars->fields)) {
+            foreach ($object_vars->fields as $field) {
+                $fieldObject = new Field();
+                $fieldObject->fromArray($field);
+                $this->fields[] = $fieldObject;
+            }
+            unset($object_vars->fields);
+        }
         parent::fromArray($object_vars);
     }
 
     /**
-     * Override AbstractJSONWrapper
+     * @Override AbstractJSONWrapper
      * Creates a human-readable representation listing all the
      * attributes of this data extension and their respective values.
      *
@@ -167,7 +163,10 @@ class DataExtension extends AbstractJSONWrapper
      */
     public function toString()
     {
-        $fields = implode(', ', $this->fields);
+        $fields = "";
+        foreach ($this->fields as $field) {
+            $fields .= $field . '\n';
+        }
 
         return sprintf(
             "DataExtension:\n" .
@@ -183,7 +182,7 @@ class DataExtension extends AbstractJSONWrapper
             $this->description == "" ? 'N/A' : $this->description,
             $this->retention_policy->getType() ?? 'N/A',
             $this->delete_date == "" ? 'N/A' : $this->delete_date,
-            $this->delete_date_as_long ??  'N/A',
+            $this->delete_date_as_long ?? 'N/A',
             $this->delete_interval ?? 'N/A',
             $this->delete_interval_unit ? $this->delete_interval_unit->getUnit() : 'N/A',
             $fields
