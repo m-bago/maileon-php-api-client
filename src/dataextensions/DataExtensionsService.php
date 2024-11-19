@@ -28,7 +28,7 @@ class DataExtensionsService extends AbstractMaileonService
      */
     public function getDataTypes()
     {
-        return $this->get("dataextensions/datatypes", [], self::MIME_TYPE, 'DataType');
+        return $this->get("dataextensions/datatypes", [], self::MIME_TYPE);
     }
 
     /**

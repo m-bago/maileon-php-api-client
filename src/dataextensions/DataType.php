@@ -2,6 +2,8 @@
 
 namespace de\xqueue\maileon\api\client\dataextensions;
 
+use de\xqueue\maileon\api\client\json\AbstractJSONWrapper;
+
 /**
  * A type descriptor class for attribute definitions.
  *
@@ -46,18 +48,19 @@ class DataType
     public static function init()
     {
         if (!self::$initialized) {
-            self::$STRING = new DataType("STRING");
-            self::$DOUBLE = new DataType("DOUBLE");
-            self::$FLOAT = new DataType("FLOAT");
-            self::$INTEGER = new DataType("INTEGER");
-            self::$BOOLEAN = new DataType("BOOLEAN");
-            self::$DATE = new DataType("DATE");
-            self::$TIMESTAMP = new DataType("TIMESTAMP");
-            self::$CONTACT_EMAIL = new DataType("CONTACT_EMAIL");
-            self::$CONTACT_EXTERNAL_ID = new DataType("CONTACT_EXTERNAL_ID");
+            self::$STRING = new DataType("string");
+            self::$DOUBLE = new DataType("double");
+            self::$FLOAT = new DataType("float");
+            self::$INTEGER = new DataType("integer");
+            self::$BOOLEAN = new DataType("boolean");
+            self::$DATE = new DataType("date");
+            self::$TIMESTAMP = new DataType("timestamp");
+            self::$CONTACT_EMAIL = new DataType("contact_email");
+            self::$CONTACT_EXTERNAL_ID = new DataType("contact_external_id");
             self::$initialized = true;
         }
     }
+
 
     /**
      * @return string

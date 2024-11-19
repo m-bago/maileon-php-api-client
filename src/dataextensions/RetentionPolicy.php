@@ -5,7 +5,7 @@ namespace de\xqueue\maileon\api\client\dataextensions;
 /**
  * The wrapper class for a Maileon Data Extension's Retention Policy.
  */
-final class RetentionPolicy
+class RetentionPolicy
 {
     public static $NONE;
     public static $EXTENSION_DATE;
@@ -13,6 +13,7 @@ final class RetentionPolicy
     public static $EXTENSION_DURATION_RENEW_ON_MODIFICATION;
     public static $RECORDS_DURATION;
     private static $initialized = false;
+
     public $type;
 
     /**

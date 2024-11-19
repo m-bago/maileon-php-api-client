@@ -80,7 +80,7 @@ class DataExtension extends AbstractJSONWrapper
      * Required* IF retention_policy is either extension_duration,
      * extension_duration_renew_on_modification or records_duration.
      *
-     * @param $delete_interval_unit
+     * @param DeleteIntervalUnit $delete_interval_unit
      * The date interval unit.
      * Required* IF retention_policy is either extension_duration,
      * extension_duration_renew_on_modification or records_duration.
@@ -121,11 +121,17 @@ class DataExtension extends AbstractJSONWrapper
     public function toArray()
     {
         $array = parent::toArray();
-        $array['retention_policy'] = $this->retention_policy->getType();
+
+        if (isset($this->retention_policy)) {
+            $array['retention_policy'] = $this->retention_policy->getType();
+        }
 
         if (isset($this->delete_date_interval)) {
             $array['delete_interval'] = $this->delete_interval;
             $array['delete_interval_unit'] = $this->delete_interval_unit->getType();
+        }
+        foreach ($this->fields as $field) {
+            $field->data_type = $field->data_type->getValue();
         }
         return $array;
     }
@@ -145,8 +151,20 @@ class DataExtension extends AbstractJSONWrapper
     {
         if (property_exists($object_vars, 'fields') && is_array($object_vars->fields)) {
             foreach ($object_vars->fields as $field) {
-                $fieldObject = new Field();
-                $fieldObject->fromArray($field);
+                $fieldObject = new Field(
+                    $field->id,
+                    $field->name,
+                    null,
+                    $field->nullable,
+                    $field->unique_identifier,
+                    $field->data_type
+                );
+                if ($field->description) {
+                    $fieldObject->description = $field->description;
+                }
+                if (isset($field->default_value)) {
+                    $fieldObject->default_value = $field->default_value;
+                }
                 $this->fields[] = $fieldObject;
             }
             unset($object_vars->fields);
